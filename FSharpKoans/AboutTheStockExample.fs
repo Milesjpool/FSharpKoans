@@ -57,6 +57,20 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        
+        let data = stockData.Tail
+
+        let splitCommas (x:string) =
+            x.Split([|','|])
+
+        let findVariance day =
+            let cols = splitCommas day
+            let openVal = System.Double.Parse cols.[1]
+            let closeVal = System.Double.Parse cols.[4]
+            (cols.[0], abs (openVal - closeVal))
+
+        let variances = List.map findVariance data
+
+        let result = fst (Seq.maxBy snd variances)
         
         AssertEquality "2012-03-13" result
